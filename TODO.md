@@ -169,3 +169,119 @@ The database (PostgreSQL) schema for the user management system will consist of 
 - **Account Lockout:** Account lockout logs stored in the **Account_Lockout_Logs** table
 - **Audit Logs:** Stored in the **Audit_Logs** table
 - **Multi-Tenancy:** Not represented in the schema, but can be implemented using a multi-tenant architecture
+
+
+# API Endpoints
+
+1. **Authentication and Authorization Endpoints**:
+   - `/register` (POST): Register a new user
+   - `/login` (POST): Login
+   - `/logout` (POST): Logout
+   - `/refresh-token` (POST): Refresh JWT token
+   - `/forgot-password` (POST): Initiate password reset (passwordless login)
+   - `/reset-password` (POST): Reset password
+   - `/change-password` (POST): Change password
+   - `/change-email` (POST): Change email
+   - `/change-phone-number` (POST): Change phone number
+   - `/change-profile-picture` (POST): Change profile picture
+   - `/change-profile-information` (POST): Change profile information
+
+2. **User Management Endpoints**:
+   - `/users` (GET): Get user information (current user)
+   - `/users/{user_id}` (GET): Get user information (by ID)
+   - `/users/{user_id}` (PUT): Update user information
+   - `/users/{user_id}` (DELETE): Delete user
+
+3. **Role and Permission Management Endpoints**:
+   - `/roles` (GET): Get list of roles
+   - `/permissions` (GET): Get list of permissions
+   - `/user-roles` (GET): Get list of roles assigned to the user
+   - `/role-permissions` (GET): Get list of permissions assigned to the role
+
+4. **User Relationship Endpoints**:
+   - `/users/{user_id}/subordinates` (GET): Get list of users under the specified user (if applicable)
+   - `/devices` (GET): Get list of devices/sessions logged in
+   - `/devices/{device_id}` (DELETE): Logout from specific device
+   - `/devices/logout` (POST): Logout from all devices
+
+5. **Audit Log Endpoints**:
+   - `/audit-logs` (GET): Get audit logs for user actions
+
+6. **Account Lockout Endpoints**:
+   - `/account-lockout-logs` (GET): Get account lockout logs
+   - `/account-lockout-config` (GET, PUT): Get or update account lockout configuration
+
+7. **IP Restriction Endpoints**:
+   - `/ip-restrictions` (GET): Get IP restrictions for user
+   - `/ip-restrictions` (POST, DELETE): Add or remove IP restriction for user
+
+8. **CSRF Token Endpoints**:
+   - `/csrf-tokens` (GET, POST): Get or generate CSRF tokens
+   - `/csrf-tokens/{token_id}` (DELETE): Invalidate CSRF token
+
+9. **API Key Endpoints**:
+   - `/api-keys` (GET, POST): Get or generate API keys
+   - `/api-keys/{key_id}` (DELETE): Revoke API key
+
+10. **OTP Token Endpoints**:
+    - `/otp-tokens` (POST): Generate OTP token (for passwordless login or 2FA)
+    - `/otp-tokens/verify` (POST): Verify OTP token
+
+11. **Other Endpoints**:
+    - `/health` (GET): Health check endpoint
+
+
+## Additional Endpoints
+
+1. **Role and Permission Management Endpoints**:
+   - `/roles` (POST): Create a new role
+   - `/roles/{role_id}` (PUT): Update role information
+   - `/roles/{role_id}` (DELETE): Delete a role
+   - `/permissions` (POST): Create a new permission
+   - `/permissions/{permission_id}` (PUT): Update permission information
+   - `/permissions/{permission_id}` (DELETE): Delete a permission
+   - `/users/{user_id}/roles` (GET): Get list of roles assigned to a user
+   - `/users/{user_id}/roles/{role_id}` (PUT): Assign a role to a user
+   - `/users/{user_id}/roles/{role_id}` (DELETE): Remove a role from a user
+
+2. **JWT Token Management Endpoints**:
+   - `/jwt-tokens/invalidate` (POST): Invalidate JWT token (force logout)
+   - `/jwt-tokens` (GET): Get list of active JWT tokens for a user
+
+3. **Session Management Endpoints**:
+   - `/sessions/{session_id}` (DELETE): Invalidate a specific session
+   - `/sessions` (DELETE): Invalidate all sessions for a user
+
+4. **Password Policy Endpoints**:
+   - `/password-policy` (GET): Get password policy settings
+   - `/password-policy` (PUT): Update password policy settings
+
+5. **Account Lockout Management Endpoints**:
+   - `/account-lockout-config` (POST): Update account lockout configuration
+
+6. **Audit Log Endpoints**:
+   - `/audit-logs/{user_id}` (GET): Get audit logs for a specific user
+
+7. **Multi-Tenancy Endpoints**:
+   - `/tenants` (GET): Get list of tenants
+   - `/tenants/{tenant_id}` (GET): Get details of a specific tenant
+   - `/tenants/{tenant_id}/users` (GET): Get list of users belonging to a specific tenant
+   - `/tenants/{tenant_id}/roles` (GET): Get list of roles available for a specific tenant
+   - `/tenants/{tenant_id}/permissions` (GET): Get list of permissions available for a specific tenant
+
+8. **User Activity Tracking Endpoints**:
+   - `/user-activity` (GET): Get user activity summary (login times, actions performed, etc.)
+
+9. **User Suspension/Activation Endpoints**:
+   - `/users/{user_id}/suspend` (POST): Suspend a user account
+   - `/users/{user_id}/activate` (POST): Activate a suspended user account
+
+10. **User Search Endpoints**:
+    - `/users/search` (GET): Search for users based on criteria such as username, email, phone number, etc.
+
+11. **API Documentation Endpoints**:
+    - `/documentation` (GET): Retrieve API documentation
+
+12. **User Import/Export Endpoints**:
+    - `/users/import` (POST): Import users from a file
+    - `/users/export` (GET): Export user data to a file
