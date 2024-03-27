@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Log Viewer</title>
+    <style>
+        body {
+            color: #333;
+            background-color: #fff;
+        }
+    
+        /* Day Mode */
+        .day-mode {
+            color: #3e3a3a;
+            background-color: #fff;
+        }
+    
+        /* Night Mode */
+        .night-mode {
+            color: #fff;
+            background-color: #1b1919;
+        }
+    
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+    
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+    
+        .sortable {
+            cursor: pointer;
+        }
+    
+        .filter-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+    
+        .search-input {
+            margin-left: 5px;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+            width: 30%;
+        }
+    
+        .message-content {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-align: left;
+        }
+    
+        .message-full-content {
+            /* white-space: pre-wrap; */
+            word-wrap: break-word;
+            text-align: left;
+            display: block;
+        }
+    
+        .message-full-content.hide {
+            display: none;
+        }
+    
+        h6 {
+            margin: 0;
+            font-size: small;
+            padding-bottom: 7px;
+        }
+    
+        .show-hide-button {
+            padding: 5px 10px;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+            background-color: #f1f1f1;
+            cursor: pointer;
+            margin-left: 5px;
+        }
+    </style>
+    
+    <script>
+        // Switches between Day and Night mode
+        function toggleMode() {
+            var body = document.body;
+            body.classList.toggle("night-mode");
+            body.classList.toggle("day-mode");
+        }
+
+        // Sorts the table
+        function sortTable(n) {
+            var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+            table = document.getElementById("logTable");
+            switching = true;
+            dir = "asc";
+            while (switching) {
+                switching = false;
+                rows = table.rows;
+                for (i = 1; i < (rows.length - 1); i++) {
+                    shouldSwitch = false;
+                    x = rows[i].getElementsByTagName("TD")[n];
+                    y = rows[i + 1].getElementsByTagName("TD")[n];
+                    if (dir == "asc") {
+                        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                    } else if (dir == "desc") {
+                        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                    }
+                }
+                if (shouldSwitch) {
+                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                    switching = true;
+                    switchcount++;
+                } else {
+                    if (switchcount == 0 && dir == "asc") {
+                        dir = "desc";
+                        switching = true;
+                    }
+                }
+            }
+        }
+
+        // Filters the table based on user input
+        function filterTable(inputId, columnIndex) {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById(inputId);
+            filter = input.value.toUpperCase();
+            table = document.getElementById("logTable");
+            tr = table.getElementsByTagName("tr");
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[columnIndex];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+
+        // Shows or hides columns based on user selection
+        function toggleColumn(columnIndex) {
+            var table, rows, i;
+            table = document.getElementById("logTable");
+            rows = table.getElementsByTagName("tr");
+            for (i = 0; i < rows.length; i++) {
+                if (rows[i].cells.length > columnIndex) {
+                    var cell = rows[i].cells[columnIndex];
+                    if (cell.style.display === "none") {
+                        cell.style.display = "";
+                    } else {
+                        cell.style.display = "none";
+                    }
+                }
+            }
+        }
+
+        // Toggles between full message and truncated message
+        function toggleMessage(index) {
+            var messageContent = document.getElementById("messageContent_" + index);
+            var messageFullContent = document.getElementById("messageFullContent_" + index);
+            var showHideButton = document.getElementById("showHideButton_" + index);
+
+            if (messageContent.style.display === "none") {
+                messageContent.style.display = "";
+                messageFullContent.style.display = "none";
+                showHideButton.textContent = "Show";
+            } else {
+                messageContent.style.display = "none";
+                messageFullContent.style.display = "";
+                showHideButton.textContent = "Hide";
+            }
+        }
+    </script>
+</head>
+<body class="day-mode">
+    <h1>JSON Log Viewer</h1>
+
+    <button onclick="toggleMode()">Light / Dark Mode</button>
+
+    <h3>Search</h3>
+    <h6>The Search is capable of searching inbetween words and is not case sensitive.</h6>
+    <div class="filter-container">
+        <label for="searchTimestamp">Timestamp:</label>
+        <input type="text" id="searchTimestamp" class="search-input" onkeyup="filterTable('searchTimestamp', 0)" placeholder="Search for Timestamp">
+    </div>
+    <div class="filter-container">
+        <label for="searchLevelname">Levelname:</label>
+        <input type="text" id="searchLevelname" class="search-input" onkeyup="filterTable('searchLevelname', 1)" placeholder="Search for Level Name">
+    </div>
+    <div class="filter-container">
+        <label for="searchModule" style="margin-right: 22px;">Module:</label>
+        <input type="text" id="searchModule" class="search-input" onkeyup="filterTable('searchModule', 2)" placeholder="Search for Module Name">
+    </div>
+    <div class="filter-container">
+        <label for="searchFuncName" style="margin-right: 1.8px;">FuncName:</label>
+        <input type="text" id="searchFuncName" class="search-input" onkeyup="filterTable('searchFuncName', 3)" placeholder="Search for Function Name">
+    </div>
+    <div class="filter-container">
+        <label for="searchMessage" style="margin-right: 16px;">Message:</label>
+        <input type="text" id="searchMessage" class="search-input" onkeyup="filterTable('searchMessage', 4)" placeholder="Search for Message Text">
+    </div>
+    <div class="filter-container">
+        <label for="searchTraceback" style="margin-right: 6px;">Traceback:</label>
+        <input type="text" id="searchTraceback" class="search-input" onkeyup="filterTable('searchTraceback', 5)" placeholder="Search for Traceback">
+    </div>
+
+    <h3>Sort</h3>
+    <h6>Check the boxes to show or hide columns.</h6>
+    
+    <div class="filter-container">
+        <label for="toggleColumns">Select Columns:</label>
+        <input type="checkbox" id="toggleTimestamp" onclick="toggleColumn(0)" checked>
+        <label for="toggleTimestamp">Timestamp</label>
+        <input type="checkbox" id="toggleLevelname" onclick="toggleColumn(1)" checked>
+        <label for="toggleLevelname">Levelname</label>
+        <input type="checkbox" id="toggleModule" onclick="toggleColumn(2)" checked>
+        <label for="toggleModule">Module</label>
+        <input type="checkbox" id="toggleFuncName" onclick="toggleColumn(3)" checked>
+        <label for="toggleFuncName">FuncName</label>
+        <input type="checkbox" id="toggleMessage" onclick="toggleColumn(4)" checked>
+        <label for="toggleMessage">Message</label>
+        <input type="checkbox" id="toggleTraceback" onclick="toggleColumn(5)" checked>
+        <label for="toggleTraceback">Traceback</label>
+    </div>
+    
+    <h3>Logs</h3>
+    <h6>Click on the table headers to sort the table.</h6>
+    
+    <table id="logTable">
+        <tr>
+            <th class="sortable" onclick="sortTable(0)">Timestamp</th>
+            <th class="sortable" onclick="sortTable(1)">Levelname</th>
+            <th class="sortable" onclick="sortTable(2)">Module</th>
+            <th class="sortable" onclick="sortTable(3)">FuncName</th>
+            <th class="sortable" onclick="sortTable(4)">Message</th>
+            <th class="sortable" onclick="sortTable(5)">Traceback</th>
+        </tr>
+        {% for log in logs %}
+        <tr>
+            <td>{{ log.asctime }}</td>
+            <td>{{ log.levelname }}</td>
+            <td>{{ log.module }}</td>
+            <td>{{ log.funcName }}</td>
+            <td>
+                {% if log.message | length > 50 %}
+                <div class="message-content" id="messageContent_{{ loop.index }}">
+                    {{ log.message | truncate(50) }}
+                </div>
+                <div class="message-full-content" id="messageFullContent_{{ loop.index }}" style="display: none;">
+                    {{ log.message }}
+                </div>
+                <button class="show-hide-button" id="showHideButton_{{ loop.index }}" onclick="toggleMessage({{ loop.index }})">Show</button>
+                {% else %}
+                <div class="message-full-content">
+                    {{ log.message }}
+                </div>
+                {% endif %}
+            </td>
+            <td>{{ log.exc_info }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

@@ -1,0 +1,57 @@
+version: '3'
+
+services:
+  auth-n-api:
+    # The image is available on private docker hub, you can use your own image if you have built it
+    image: rjyspl/auth-n-api:latest
+    container_name: auth-n-api
+
+    # The environment variables are used to configure the application
+    # Use the correct values for the environment variables
+    # Change the <xxx> to the correct values to reflect your environment
+    environment:
+      - TZ=Asia/Kolkata
+      - GUNICORN_ARG_WORKERS=<Number of workers to be used, normally 2 * number of CPU cores; integer>
+      - GUNICORN_ARG_THREADS=<Number of threads to be used, normally 2 * number of workers; integer>
+      - GUNICORN_ARG_TIMEOUT=<Timeout for the request; integer>
+      - GUNICORN_ARG_BIND_PORT=<Port to bind the application; integer>
+      - POSTGRES_DB_USERNAME=<Postgres database username; string>
+      - POSTGRES_DB_PASSWORD=<Postgres database password; string>
+      - POSTGRES_DB_HOST=<Postgres database host; string>
+      - POSTGRES_DB_PORT=<Postgres database port; integer>
+      - POSTGRES_DB_DATABASE=<Postgres database name; string>
+      - LOG_LEVEL=<Log level in the api; integer>
+      - NUMBER_OF_LOGS_TO_DISPLAY=<Number of logs to display in the api; integer>
+
+    # The ports are used to expose the application to the host machine
+    ports:
+      - "8086:8086" # Note: Make sure it matches with the GUNICORN_ARG_BIND_PORT
+
+    # The volumes are used to store the logs
+    # LHS is the host machine path and RHS is the container path
+    # Change the LHS to the correct path to store the logs (if required)
+    volumes:
+      - /var/log/auth-n-api:/var/log/api
+
+    networks:
+      - internal_network
+
+    # The restart policy is set to always to restart the container in case of failure
+    restart: always
+
+  postgres-database:
+    image: postgres:16
+    container_name: postgres-database
+    environment:
+      - POSTGRES_PASSWORD=Neko-Nik-@007
+      - POSTGRES_USER=nikhil
+      - POSTGRES_DB=command_center
+    volumes:
+      - /var/lib/postgresql/data:/var/lib/postgresql/data
+    restart: always
+    networks:
+      - internal_network
+
+networks:
+  internal_network:
+    driver: bridge

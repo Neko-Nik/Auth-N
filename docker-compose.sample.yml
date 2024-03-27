@@ -1,0 +1,57 @@
+version: '3'
+
+services:
+  auth-n-api:
+    # The image is available on private docker hub, you can use your own image if you have built it
+    image: rjyspl/auth-n-api:latest
+    container_name: auth-n-api
+
+    # The environment variables are used to configure the application
+    # Use the correct values for the environment variables
+    # Change the <xxx> to the correct values to reflect your environment
+    environment:
+      - TZ=Asia/Kolkata
+      - GUNICORN_ARG_WORKERS=4
+      - GUNICORN_ARG_THREADS=4
+      - GUNICORN_ARG_TIMEOUT=120
+      - GUNICORN_ARG_BIND_PORT=8086
+      - POSTGRES_DB_USERNAME=nikhil
+      - POSTGRES_DB_PASSWORD=Neko-Nik-@007
+      - POSTGRES_DB_HOST=postgres-database
+      - POSTGRES_DB_PORT=5432
+      - POSTGRES_DB_DATABASE=command_center
+      - LOG_LEVEL=10
+      - NUMBER_OF_LOGS_TO_DISPLAY=200
+
+    # The ports are used to expose the application to the host machine
+    ports:
+      - "8086:8086" # Note: Make sure it matches with the GUNICORN_ARG_BIND_PORT
+
+    # The volumes are used to store the logs
+    # LHS is the host machine path and RHS is the container path
+    # Change the LHS to the correct path to store the logs (if required)
+    volumes:
+      - /var/log/auth-n-api:/var/log/api
+
+    networks:
+      - internal_network
+
+    # The restart policy is set to always to restart the container in case of failure
+    restart: always
+
+  postgres-database:
+    image: postgres:16
+    container_name: postgres-database
+    environment:
+      - POSTGRES_PASSWORD=Neko-Nik-@007
+      - POSTGRES_USER=nikhil
+      - POSTGRES_DB=command_center
+    volumes:
+      - /var/lib/postgresql/data:/var/lib/postgresql/data
+    restart: always
+    networks:
+      - internal_network
+
+networks:
+  internal_network:
+    driver: bridge
