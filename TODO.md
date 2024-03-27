@@ -45,70 +45,80 @@ The database (PostgreSQL) schema for the user management system will consist of 
 ## Tables:
 
 1. **Users:**
-   - user_id (Primary Key)
-   - username
-   - password_hash
-   - email
-   - phone_number
-   - profile_picture_url
-   - last_login
-   - is_active
-   - is_locked
-   - lockout_time
-   - created_at
-   - updated_at
-   - password_last_changed
+    - user_id (Primary Key)
+    - username
+    - password_hash
+    - email
+    - phone_number
+    - profile_picture_url
+    - last_login
+    - is_active
+    - is_locked
+    - lockout_time
+    - created_at
+    - updated_at
+    - password_last_changed
 
 2. **Roles:**
-   - role_id (Primary Key)
-   - role_name
+    - role_id (Primary Key)
+    - role_name
+    - description
+    - created_at
 
 3. **Permissions:**
-   - permission_id (Primary Key)
-   - permission_name
+    - permission_id (Primary Key)
+    - permission_name
+    - description
+    - created_at
+    - updated_at
+    - permission_data (JSON) - for storing key-value pairs of additional data
 
 4. **User_Roles:**
-   - user_id (Foreign Key to Users)
-   - role_id (Foreign Key to Roles)
+    - user_id (Foreign Key to Users)
+    - role_id (Foreign Key to Roles)
+    - assigned_by (Foreign Key to Users)
+    - assigned_at
 
 5. **Role_Permissions:**
-   - role_id (Foreign Key to Roles)
-   - permission_id (Foreign Key to Permissions)
+    - role_id (Foreign Key to Roles)
+    - permission_id (Foreign Key to Permissions)
+    - assigned_by (Foreign Key to Users)
+    - assigned_at
 
 6. **Login_Attempts:**
-   - attempt_id (Primary Key)
-   - user_id (Foreign Key to Users)
-   - attempt_time
-   - success (Boolean)
-   - ip_address
+    - attempt_id (Primary Key)
+    - user_id (Foreign Key to Users)
+    - attempt_time
+    - success (Boolean)
+    - ip_address
+    - other_info (JSON) - for storing additional data
 
 7. **Audit_Logs:**
-   - log_id (Primary Key)
-   - user_id (Foreign Key to Users)
-   - action
-   - timestamp
-   - details
+    - log_id (Primary Key)
+    - user_id (Foreign Key to Users)
+    - action_performed - (e.g., login, logout, update_profile)
+    - timestamp
+    - details (JSON) - for storing additional data
 
 8. **Sessions:**
-   - session_id (Primary Key)
-   - user_id (Foreign Key to Users)
-   - device_info
-   - login_time
-   - last_activity_time
-   - is_active
+    - session_id (Primary Key)
+    - user_id (Foreign Key to Users)
+    - device_info
+    - login_time
+    - last_activity_time
+    - is_active
 
 9. **JWT_Tokens:**
-   - token_id (Primary Key)
-   - user_id (Foreign Key to Users)
-   - token
-   - expiration_time
+    - token_id (Primary Key)
+    - user_id (Foreign Key to Users)
+    - token
+    - expiration_time
 
 10. **API_Keys:**
     - key_id (Primary Key)
     - user_id (Foreign Key to Users)
     - key
     - created_at
-    - last_used_at
 
 11. **Password_Reset_Tokens:**
     - token_id (Primary Key)
@@ -119,7 +129,10 @@ The database (PostgreSQL) schema for the user management system will consist of 
 12. **IP_Restrictions:**
     - restriction_id (Primary Key)
     - user_id (Foreign Key to Users)
-    - ip_address
+    - ip_address - (list of allowed or restricted IP addresses)
+    - restriction_type - (allow or deny)
+    - created_at
+    - updated_at
 
 13. **CSRF_Tokens:**
     - token_id (Primary Key)
@@ -139,11 +152,6 @@ The database (PostgreSQL) schema for the user management system will consist of 
     - device_info
     - last_login
 
-16. **Account_Lockout_Logs:**
-    - log_id (Primary Key)
-    - user_id (Foreign Key to Users)
-    - attempt_time
-    - ip_address
 
 ### Relationships:
 
