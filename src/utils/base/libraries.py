@@ -8,7 +8,8 @@ from fastapi import FastAPI, File, UploadFile , Form, Request, status, Response,
 from fastapi.responses import JSONResponse , PlainTextResponse , HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.templating import Jinja2Templates
-from fastapi.security import APIKeyHeader
+from fastapi.security import APIKeyHeader, OAuth2PasswordBearer, OAuth2PasswordRequestForm
+
 import uvicorn
 
 # Object data modeling libraries
@@ -21,13 +22,15 @@ from sqlalchemy.orm import relationship, sessionmaker, Session
 from sqlalchemy.event import listens_for
 
 # other libraries
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from deprecated import deprecated
 from functools import wraps
 import subprocess
+import hashlib
 import base64
 import bcrypt
 import json
+import jwt
 import re
 
 
