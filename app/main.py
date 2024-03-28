@@ -12,6 +12,7 @@ from src.utils.base.libraries import (
 )
 from .routers import logs_router
 from src.utils.models import All_Exceptions
+from src.database import init_db
 
 
 # Initialization
@@ -25,6 +26,7 @@ app = FastAPI(
     redoc_url="/redoc",
     include_in_schema=True,
 )
+init_db()
 
 # Add CROCS middle ware to allow cross origin requests
 app.add_middleware(
