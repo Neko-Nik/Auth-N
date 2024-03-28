@@ -1,7 +1,10 @@
 annotated-types==0.6.0
 anyio==4.3.0
+bcrypt==4.1.2
 click==8.1.7
 Deprecated==1.2.14
+dnspython==2.6.1
+email_validator==2.1.1
 fastapi==0.110.0
 greenlet==3.0.3
 h11==0.14.0
