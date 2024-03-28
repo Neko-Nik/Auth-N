@@ -26,7 +26,7 @@ def create_new_user(session: Session, user: BaseUser) -> Error | str:
     decoded_password_hash = base64.b64decode(base64_password_hash)
 
     # Generate a salt
-    salt = bcrypt.gensalt()
+    salt: bytes = bcrypt.gensalt()
 
     # Hash the password with the generated salt
     hashed_password = bcrypt.hashpw(decoded_password_hash, salt)

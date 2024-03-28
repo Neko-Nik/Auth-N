@@ -12,7 +12,7 @@ class BaseUser(BaseModel):
     user_id: str = Field(..., title="User ID", description="User ID")
     username: str = Field(..., title="Username", description="Username")
     password_hash: str = Field(..., title="Password Hash", description="Password Hash")
-    password_salt: str = Field("", title="Password Salt", description="Password Salt")
+    password_salt: bytes = Field(b"", title="Password Salt", description="Password Salt")
     email: EmailStr = Field(..., title="Email", description="Email")
     phone_number: str = Field(..., title="Phone Number", description="Phone Number")
     profile_picture_url: str = Field("", title="Profile Picture URL", description="Profile Picture URL")
@@ -59,21 +59,15 @@ class BaseUser(BaseModel):
         """
         from_attributes = True
         json_schema_extra = {
+            "title": "User Model",
+            "description": "User model for storing user information",
+            "type": "object",
             "example": {
-                "user_id": "user_id_hash",
-                "username": "username",
-                "password_hash": "password_hash",
-                "password_salt": "i_am_a_salt",
-                "email": "nikhil@nekonik.com",
+                "user_id": "user_id_has21",
+                "username": "username11",
+                "email": "nik@nekonik.com",
+                "password_hash": "base64_password_hash",
                 "phone_number": "+91 1234567890",
-                "profile_picture_url": "https://profile_picture_url.com",
-                "last_login": "2021-07-01T12:00:00",
-                "is_active": True,
-                "is_locked": False,
-                "lockout_time": "2021-07-01T12:00:00",
-                "created_at": "2021-07-01T12:00:00",
-                "updated_at": "2021-07-01T12:00:00",
-                "password_last_changed": "2021-07-01T12:00:00",
-                "failed_login_attempts": 0
+                "profile_picture_url": "https://NekoNik.com",
             }
         }
