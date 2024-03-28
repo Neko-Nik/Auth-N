@@ -36,7 +36,7 @@ def register_user(request: Request, user: BaseUser, session: Session=Depends(get
     return: JSONResponse: JSON response
     """
     try:
-        user_creation_status = create_new_user(session, user)
+        user_creation_status = create_new_user(session=session, user=user)
         if isinstance(user_creation_status, Error):
             return JSONResponse(
                 content=user_creation_status.model_dump(),

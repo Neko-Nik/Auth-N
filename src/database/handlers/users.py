@@ -22,5 +22,4 @@ def create_user(db: Session, user: BaseUser) -> None:
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
-    return
-
+    return None

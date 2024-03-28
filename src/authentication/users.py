@@ -23,20 +23,20 @@ def create_new_user(session: Session, user: BaseUser) -> Error | str:
     base64_password_hash = user.password_hash
 
     # Decode the base64 encoded password hash
-    decoded_password_hash = base64.b64decode(base64_password_hash)
+    decoded_password_hash: bytes = base64.b64decode(s=base64_password_hash)
 
     # Generate a salt
     salt: bytes = bcrypt.gensalt()
 
     # Hash the password with the generated salt
-    hashed_password = bcrypt.hashpw(decoded_password_hash, salt)
+    hashed_password: bytes = bcrypt.hashpw(password=decoded_password_hash, salt=salt)
 
     # Store the salt and hashed password in the user object
-    user.password_salt = salt
-    user.password_hash = hashed_password
+    user.password_salt = salt.decode(encoding="utf-8")
+    user.password_hash = hashed_password.decode(encoding="utf-8")
 
     # If user already exists, return an error
-    if get_user_by_username(session, user.username):
+    if get_user_by_username(db=session, username=user.username):
         return Error(
             message="User already exists",
             status_code=status.HTTP_409_CONFLICT,
@@ -47,5 +47,5 @@ def create_new_user(session: Session, user: BaseUser) -> Error | str:
         )
 
     # If user does not exist, create a new user
-    create_user(session, user)
+    create_user(db=session, user=user)
     return "User created successfully"
