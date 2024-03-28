@@ -2,7 +2,8 @@
 All the models used in the project are defined here.
 """
 
-from .generic import All_Exceptions
+from .generic import All_Exceptions, Error
+from .auth import BaseUser
 from .database import (
     User,
     Role,
@@ -44,7 +45,9 @@ __annotations__ = {
     "CSRFToken": "CSRFToken model",
     "OTPToken": "OTPToken model",
     "Device": "Device model",
-    "Base": "Declarative base for the database models"
+    "Base": "Declarative base for the database models",
+    "Error": "General error model for the project",
+    "BaseUser": "Foundational user model reflecting user database structure"
 }
 
 
@@ -65,5 +68,7 @@ __all__ = [
     "CSRFToken",
     "OTPToken",
     "Device",
-    "Base"
+    "Base",
+    "Error",
+    "BaseUser"
 ]

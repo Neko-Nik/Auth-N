@@ -12,12 +12,12 @@ from fastapi.security import APIKeyHeader
 import uvicorn
 
 # Object data modeling libraries
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, validator, EmailStr
 
 # SQLAlchemy libraries
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime, JSON, create_engine
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship, sessionmaker
+from sqlalchemy.orm import relationship, sessionmaker, Session
 from sqlalchemy.event import listens_for
 
 # other libraries
@@ -25,8 +25,11 @@ from datetime import datetime, timezone
 from deprecated import deprecated
 from functools import wraps
 import subprocess
+import base64
+import bcrypt
 import json
 import re
+
 
 # read env variables
 import os

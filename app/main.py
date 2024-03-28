@@ -10,7 +10,7 @@ from src.utils.base.libraries import (
     Request,
     uvicorn
 )
-from .routers import logs_router
+from .routers import logs_router, users_router
 from src.utils.models import All_Exceptions
 from src.database import init_db
 
@@ -48,6 +48,7 @@ async def input_data_exception_handler(request: Request, exc: All_Exceptions):
 
 #    Endpoints    #
 app.include_router(router=logs_router)
+app.include_router(router=users_router, prefix="/users")
 
 
 if __name__ == '__main__':
