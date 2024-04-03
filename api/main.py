@@ -4,6 +4,8 @@ This file is used to run the API
 """
 
 from src.utils.base.libraries import (
+    get_swagger_ui_html,
+    get_redoc_html,
     CORSMiddleware,
     JSONResponse,
     FastAPI,
@@ -20,10 +22,8 @@ app = FastAPI(
     title="Auth N",
     description="This is the API for Authentication and Authorization",
     version="1.0.0",
-    # docs_url=None,
-    # redoc_url=None,
-    docs_url="/docs",
-    redoc_url="/redoc",
+    docs_url=None,
+    redoc_url=None,
     include_in_schema=True,
 )
 init_db()
@@ -50,7 +50,10 @@ async def input_data_exception_handler(request: Request, exc: All_Exceptions):
 app.include_router(router=logs_router)
 app.include_router(router=users_router, prefix="/user")
 
+@app.get("/docs", include_in_schema=False)
+async def custom_swagger_ui_html(request: Request):
+    return get_swagger_ui_html(openapi_url="/openapi.json", title="Auth N - API", swagger_favicon_url="https://auth-n.nekonik.com/img/favicon.svg")
 
-if __name__ == '__main__':
-    # reload=True - server will automatically restart after code changes
-    uvicorn.run('app:app', host='0.0.0.0', port=8086, reload=True)
+@app.get("/redoc", include_in_schema=False)
+async def redoc_html(request: Request):
+    return get_redoc_html(openapi_url="/openapi.json", title="Auth N - ReDocs", redoc_favicon_url="https://auth-n.nekonik.com/img/favicon.svg")

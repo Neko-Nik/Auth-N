@@ -5,10 +5,11 @@ any new library should be added here and imported in the respective files
 
 # FastAPI libraries
 from fastapi import FastAPI, File, UploadFile , Form, Request, status, Response, Depends, APIRouter
+from fastapi.security import APIKeyHeader, OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from fastapi.responses import JSONResponse , PlainTextResponse , HTMLResponse
+from fastapi.openapi.docs import get_swagger_ui_html, get_redoc_html
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.templating import Jinja2Templates
-from fastapi.security import APIKeyHeader, OAuth2PasswordBearer, OAuth2PasswordRequestForm
 
 import uvicorn
 
