@@ -48,7 +48,7 @@ async def input_data_exception_handler(request: Request, exc: All_Exceptions):
 
 #    Endpoints    #
 app.include_router(router=logs_router)
-app.include_router(router=users_router, prefix="/users")
+app.include_router(router=users_router, prefix="/user")
 
 
 if __name__ == '__main__':

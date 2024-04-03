@@ -1,5 +1,23 @@
 """
-Authorization Router
+Authorization Router for /user endpoints
+
+The routers in this file are responsible for handling the user related endpoints
+    - Register User: POST /register - Create a new user in the database
+    - Login User JWT: POST /login/access-token - Login an existing user and generate a new JWT token
+    - Get User: GET / - Get the user details
+    - Update User: PUT / - Update the user details
+    - Delete User: DELETE / - Delete the user from the database
+    - Verify Email: POST /verify-email - Verify the email of the user
+    - Resend Email Verification: POST /resend-verification-email - Resend the email verification link to the user
+    - Change Password: PUT /change-password - Change the password of the user using the old password
+    - Forgot Password: POST /forgot-password - Send a password reset link to the user email - generates a reset token
+    - Reset Password: POST /reset-password - Reset the password of the user using the reset token
+    - Logout User: POST /logout - Logout an existing user and invalidate the JWT token
+    - Refresh Token: POST /login/refresh-token - Refresh the JWT token for an existing user
+    - Generate API Key: POST /api-key - Generate a new API key for the user with the specified permissions
+    - Delete API Key: DELETE /api-key - Delete the API key of the user
+    - Revoke API Key: PUT /api-key - Revoke the API key of the user, the key will be invalidated and can't be used anymore
+    - Get all API Keys: GET /api-keys - Get all the API keys of the user with the specified permissions (hides the secret key)
 """
 
 from src.utils.base.libraries import (
@@ -23,7 +41,6 @@ templates = Jinja2Templates(directory="templates")
 # Router
 router = APIRouter()
 
-# - Logout User
 
 # Register User - Create a new user in the database
 @router.post("/register", response_class=JSONResponse, tags=["Authorization"], summary="Register User")
@@ -52,6 +69,7 @@ def register_user(request: Request, user: BaseUser, session: Session=Depends(get
             content={"message": "Internal Server Error", "error": str(e)},
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR
         )
+
 
 # Login User - Login an existing user
 @router.post("/login/access-token", response_class=JSONResponse, tags=["Authentication"], summary="Login and generate a new JWT token")
