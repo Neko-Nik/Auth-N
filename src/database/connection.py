@@ -3,6 +3,7 @@ This file contains the database connection and session creation functions
 """
 
 from src.utils.base.libraries import create_engine, sessionmaker
+from src.utils.base.constants import POSTGRES_DB_DATABASE, POSTGRES_DB_HOST, POSTGRES_DB_PASSWORD, POSTGRES_DB_PORT, POSTGRES_DB_USERNAME
 from src.utils.models import Base
 from .events import handle_failed_login_attempts
 
@@ -11,9 +12,8 @@ from .events import handle_failed_login_attempts
 SQLALCHEMY_DATABASE_URL = "sqlite:///./sql_app.db"
 engine = create_engine(url=SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False})
 
-# For Postgres
-# SQLALCHEMY_DATABASE_URL = "postgresql://user:password@postgresserver/db"
-# engine = create_engine(url=SQLALCHEMY_DATABASE_URL)
+# For Postgres database (production)
+# engine = create_engine(url=f"postgresql://{POSTGRES_DB_USERNAME}:{POSTGRES_DB_PASSWORD}@{POSTGRES_DB_HOST}:{POSTGRES_DB_PORT}/{POSTGRES_DB_DATABASE}")
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
