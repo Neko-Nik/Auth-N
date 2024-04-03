@@ -7,4 +7,4 @@ gunicorn \
     --reload --capture-output \
     --error-logfile /var/log/api/error_log.txt \
     --access-logfile /var/log/api/guicorn_log.txt \
-    -k uvicorn.workers.UvicornWorker app.main:app
+    -k uvicorn.workers.UvicornWorker api.main:app

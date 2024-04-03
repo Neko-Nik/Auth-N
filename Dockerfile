@@ -35,7 +35,7 @@ WORKDIR /app
 # Copy the source code to the working directory
 COPY src/ src/
 COPY templates/ templates/
-COPY app/ .
+COPY api/ api/
 COPY scripts/entry_point.sh .
 
 CMD ["chmod", "+x", "/app/entry_point.sh"]
