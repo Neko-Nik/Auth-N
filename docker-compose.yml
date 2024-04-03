@@ -3,7 +3,7 @@ version: '3'
 services:
   auth-n-api:
     # The image is available on private docker hub, you can use your own image if you have built it
-    image: rjyspl/auth-n-api:latest
+    image: neko7nik/auth-n:latest
     container_name: auth-n-api
 
     # The environment variables are used to configure the application

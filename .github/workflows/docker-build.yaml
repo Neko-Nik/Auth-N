@@ -37,5 +37,5 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: |
-            rjyspl/auth-n-api:latest
-            rjyspl/auth-n-api:${{ steps.tag.outputs.TAG }}
+            neko7nik/auth-n:latest
+            neko7nik/auth-n:${{ steps.tag.outputs.TAG }}

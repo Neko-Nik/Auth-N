@@ -10,7 +10,6 @@ from src.utils.base.libraries import (
     status,
     Depends,
     Session,
-    OAuth2PasswordBearer,
     OAuth2PasswordRequestForm
 )
 from src.utils.models import BaseUser, Error
@@ -24,7 +23,6 @@ templates = Jinja2Templates(directory="templates")
 # Router
 router = APIRouter()
 
-# - Login User
 # - Logout User
 
 # Register User - Create a new user in the database
