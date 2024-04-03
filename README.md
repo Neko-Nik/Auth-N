@@ -11,22 +11,44 @@ Auth-N is a powerful API for managing user authentication. Developed by Nikhil R
 - Audit logging to track user actions and system activities.
 - Seamless integration with other services via API key authentication and machine-to-machine communication.
 
-## Note:
-This project is currently under development and not yet ready for production use. Please check back later for updates and releases.
 
-## Contributing:
+## Note: This project is currently under development and not yet ready for production use. Please check back later for updates and releases.
 
-I welcome contributions from the community to help improve this project. If you are interested in contributing, please submit a pull request with your changes. I will review your code and merge it if it meets the project's standards.
 
-Feel free to reach out to me if you have any questions or need help getting started with the project.
+## 👨‍💻 Contributing:
 
-## License:
+Thank you for considering contributing to this project! Your efforts are highly valued, and they contribute to the growth and improvement of our community. Here's how you can get involved:
 
-This project is licensed under the Apache License 2.0. You can find the full license text in the `LICENSE` file.
+- **Pull Requests**: If you have changes or improvements to suggest, please submit a pull request. We'll review it promptly and merge it if it aligns with the project's standards.
+  
+- **Questions and Guidance**: Don't hesitate to reach out if you have any questions or need assistance with contributing. We're here to help you get started and support you throughout the process.
+
+- **Appreciation**: We deeply appreciate all contributions made by our community members. Your dedication and effort are what make the open-source community thrive.
+
+- **Feedback and Suggestions**: We welcome your feedback and suggestions for improving this project.
+
+- **Security Vulnerabilities**: Read our [Security Policy](https://github.com/Neko-Nik/Auth-N/blob/main/SECURITY.md) for information on reporting security vulnerabilities.
+
+Feel free to engage with us and join our collaborative efforts. Together, we can make this project even better!
+
+
+## 🛡️ License
+
+Auth-N is licensed under the MIT License - see the [LICENSE](https://github.com/Neko-Nik/Auth-N/blob/main/LICENSE) file for details.
+
+
+## 🙏 Support
+
+This project needs a ⭐️ from you. Don't forget to leave a star ⭐️.
+
+
+## Our Pledge
+
+We take participation in our community as a harassment-free experience for everyone and we pledge to act in ways to contribute to an open, welcoming, diverse and inclusive community.
+
+If you have experienced or been made aware of unacceptable behaviour, please remember that you can report this. Read our [Code of Conduct](https://github.com/Neko-Nik/Auth-N/blob/main/CODE_OF_CONDUCT.md) for more information.
+
 
 ## Contact:
 
-For any inquiries or feedback, please contact me at `nikhil@nekonik.com`. Shedule a meeting with me at [Calendly - Neko Nik](https://calendly.com/neko-nik/general-meet).
-
-
-#### Copyright 2024 Nikhil Raj (Alias: Neko Nik)
+For any inquiries or feedback, please contact me at `nikhil@nekonik.com`. Shedule a meeting with me at [Calendly - Neko Nik](https://calendly.com/neko-nik/general-meet)
