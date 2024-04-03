@@ -26,7 +26,7 @@ This project is licensed under the Apache License 2.0. You can find the full lic
 
 ## Contact:
 
-For any inquiries or feedback, please contact me at [My Email](mailto:nikhil@nekonik.com). Shedule a meeting with me at [Calendly - Neko Nik](https://calendly.com/neko-nik/general-meet).
+For any inquiries or feedback, please contact me at `nikhil@nekonik.com`. Shedule a meeting with me at [Calendly - Neko Nik](https://calendly.com/neko-nik/general-meet).
 
 
 #### Copyright 2024 Nikhil Raj (Alias: Neko Nik)
