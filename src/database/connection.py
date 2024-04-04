@@ -5,7 +5,7 @@ This file contains the database connection and session creation functions
 from src.utils.base.libraries import create_engine, sessionmaker
 from src.utils.base.constants import POSTGRES_DB_DATABASE, POSTGRES_DB_HOST, POSTGRES_DB_PASSWORD, POSTGRES_DB_PORT, POSTGRES_DB_USERNAME
 from src.utils.models import Base
-from .events import handle_failed_login_attempts
+from .events import handle_failed_login_attempts, handle_email_changes
 
 
 # For SQLite local database

@@ -33,6 +33,8 @@ from src.utils.base.libraries import (
 from src.utils.models import BaseUser, Error
 from src.database import get_db
 from src.authentication import create_new_user, generate_access_token
+from src.main import get_current_user_id
+from src.email import send_verification_email, verify_otp_for_user_email
 
 # Load templates
 templates = Jinja2Templates(directory="templates")
@@ -93,6 +95,72 @@ def login_access_token(request: Request, session: Session=Depends(get_db), form_
             )
         return JSONResponse(
             content={"access_token": access_token, "token_type": "bearer"},
+            status_code=status.HTTP_200_OK
+        )
+
+    except Exception as e:
+        return JSONResponse(
+            content={"message": "Internal Server Error", "error": str(e)},
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
+
+
+@router.post("/verify-email", response_class=JSONResponse, tags=["Authorization"], summary="Send a verification email to the user")
+def verify_email(request: Request, user_id: dict=Depends(get_current_user_id), session: Session=Depends(get_db)) -> JSONResponse:
+    """
+    This endpoint is used to send a verification email to the user
+    param: request: Request: Request object
+    param: session: Session: Database session
+    param: token: str: JWT token
+    return: JSONResponse: JSON response
+    """
+    if isinstance(user_id, Error):
+        return JSONResponse(
+            content=user_id.model_dump(),
+            status_code=user_id.status_code
+        )
+    try:
+        verify_email_status = send_verification_email(session=session, user_id=user_id)
+        if isinstance(verify_email_status, Error):
+            return JSONResponse(
+                content=verify_email_status.model_dump(),
+                status_code=verify_email_status.status_code
+            )
+        return JSONResponse(
+            content={"message": verify_email_status},
+            status_code=status.HTTP_200_OK
+        )
+    
+    except Exception as e:
+        return JSONResponse(
+            content={"message": "Internal Server Error", "error": str(e)},
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
+
+
+@router.post("/verify-email/{otp}", response_class=JSONResponse, tags=["Authorization"], summary="Verify the email of the user")
+def verify_email(request: Request, otp: str, user_id: dict=Depends(get_current_user_id), session: Session=Depends(get_db)) -> JSONResponse:
+    """
+    This endpoint is used to verify the email of the user
+    param: request: Request: Request object
+    param: otp: str: OTP entered by the user
+    param: session: Session: Database session
+    return: JSONResponse: JSON response
+    """
+    if isinstance(user_id, Error):
+        return JSONResponse(
+            content=user_id.model_dump(),
+            status_code=user_id.status_code
+        )
+    try:
+        verify_email_status = verify_otp_for_user_email(session=session, user_id=user_id, otp=otp)
+        if isinstance(verify_email_status, Error):
+            return JSONResponse(
+                content=verify_email_status.model_dump(),
+                status_code=verify_email_status.status_code
+            )
+        return JSONResponse(
+            content={"message": verify_email_status},
             status_code=status.HTTP_200_OK
         )
 

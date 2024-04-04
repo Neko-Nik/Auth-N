@@ -9,8 +9,7 @@ from src.utils.base.libraries import (
     CORSMiddleware,
     JSONResponse,
     FastAPI,
-    Request,
-    uvicorn
+    Request
 )
 from .routers import logs_router, users_router
 from src.utils.models import All_Exceptions

@@ -48,6 +48,7 @@ class User(Base):
     last_login = Column(DateTime)
     is_active = Column(Boolean, default=True)
     is_locked = Column(Boolean, default=False)
+    is_email_verified = Column(Boolean, default=False)
     lockout_time = Column(DateTime, nullable=True)
     created_at = Column(DateTime, default=datetime.now(timezone.utc))
     updated_at = Column(DateTime, onupdate=datetime.now(timezone.utc))

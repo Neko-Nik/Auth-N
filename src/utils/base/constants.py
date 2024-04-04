@@ -22,6 +22,69 @@ LOG_LEVEL = 10
 LOG_FILE_PATH = "logs/logs.jsonl"
 NUMBER_OF_LOGS_TO_DISPLAY = int(os.environ.get("NUMBER_OF_LOGS_TO_DISPLAY", 100))
 
+# Email configuration
+EMAIL_CONFIG = {
+    "from_email": os.environ.get("EMAIL_FROM_EMAIL", "test@nekonik.com"),
+    "user_name" : os.environ.get("EMAIL_USER_NAME", "test@nekonik.com"),
+    "password": os.environ.get("EMAIL_PASSWORD", "Test@86"),
+    "smtp_server": os.environ.get("EMAIL_SMTP_SERVER", "smtp.gmail.com"),
+    "port": int(os.environ.get("EMAIL_PORT", 587)),
+    "tls": True
+}
+
+EMAIL_RELATED_ERROR_MESSAGES = {
+    "email_already_verified": {
+        "message": "Email already verified",
+        "status_code": status.HTTP_208_ALREADY_REPORTED,
+        "info": {
+            "note": "Email is already verified",
+            "source": "While verifying the email address"
+        }
+    },
+    "otp_expired": {
+        "message": "OTP expired",
+        "status_code": status.HTTP_401_UNAUTHORIZED,
+        "info": {
+            "note": "Please request a new OTP",
+            "source": "While verifying the email address"
+        }
+    },
+    "otp_not_found": {
+        "message": "OTP not found",
+        "status_code": status.HTTP_404_NOT_FOUND,
+        "info": {
+            "note": "Please request a new OTP",
+            "source": "While verifying the email address"
+        }
+    }
+}
+
+DEPENDENCY_ERROR_MESSAGES = {
+    "token_expired": {
+        "message": "Token expired",
+        "status_code": status.HTTP_401_UNAUTHORIZED,
+        "info": {
+            "note": "Please login again, the token has expired",
+            "source": "While decoding the JWT token"
+        }
+    },
+    "invalid_token": {
+        "message": "Invalid token",
+        "status_code": status.HTTP_401_UNAUTHORIZED,
+        "info": {
+            "note": "Please login again, the token is invalid",
+            "source": "While decoding the JWT token"
+        }
+    }
+}
+
+EMAIL_TEMPLATES = {
+    "email_verification": {
+        "subject": "Email Verification",
+        "body": "Please type the following OTP in the application to verify your email address: {verification_otp}"
+    },
+}
+
 
 # Database error messages
 DB_ERROR_MESSAGES = {

@@ -11,8 +11,6 @@ from fastapi.openapi.docs import get_swagger_ui_html, get_redoc_html
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.templating import Jinja2Templates
 
-import uvicorn
-
 # Object data modeling libraries
 from pydantic import BaseModel, Field, validator, EmailStr
 
@@ -22,14 +20,21 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker, Session
 from sqlalchemy.event import listens_for
 
+# Email libraries
+import smtplib
+
 # other libraries
 from datetime import datetime, timezone, timedelta
+from typing import Annotated
 from deprecated import deprecated
 from functools import wraps
 import subprocess
 import hashlib
+import random
 import base64
 import bcrypt
+import time
+import uuid
 import json
 import jwt
 import re

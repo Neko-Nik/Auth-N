@@ -10,3 +10,9 @@ from src.utils.models import User
 def handle_failed_login_attempts(mapper, connection, target: User) -> None:
     if ("failed_login_attempts" in target.__modified__) and (target.failed_login_attempts >= 3):
         target.is_locked = True
+
+# Define an event listener to handle email changes
+@listens_for(target=User, identifier='after_update')
+def handle_email_changes(mapper, connection, target: User) -> None:
+    if "email" in target.__modified__:
+        target.is_email_verified = False

@@ -8,3 +8,21 @@ Should have the following functions:
     - send_notification_email: Send a notification email to the user
     - send_error_email: Send an error email to the admin
 """
+
+from .email_verification import send_verification_email, verify_otp_for_user_email
+
+
+__version__ = "v1.0.0-phoenix-release"
+
+
+__annotations__ = {
+    "version": __version__,
+    "send_verification_email": "Send a verification email to the user",
+    "verify_otp_for_user_email": "Verify the OTP for the user email"
+}
+
+
+__all__ = [
+    "send_verification_email",
+    "verify_otp_for_user_email"
+]

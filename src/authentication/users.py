@@ -9,6 +9,7 @@ from src.utils.base.libraries import (
     hashlib,
     datetime,
     timedelta,
+    timezone,
     jwt
 )
 from src.utils.models import BaseUser, Error
@@ -68,14 +69,8 @@ def generate_access_token(session: Session, username: str, password: str) -> str
     """
     # Verify the user credentials
     user = get_user_by_username(db=session, username=username)
-
-    match user:
-        case None:
-            return Error(**DB_ERROR_MESSAGES["user_not_found"])
-        case user if not user.is_active:
-            return Error(**DB_ERROR_MESSAGES["user_inactive"])
-        case user if user.is_locked:
-            return Error(**DB_ERROR_MESSAGES["user_locked"])
+    if isinstance(user, Error):
+        return user
 
     # Verify the password
     salt = user.password_salt.encode(encoding="utf-8")  # Convert the salt to bytes
@@ -87,7 +82,7 @@ def generate_access_token(session: Session, username: str, password: str) -> str
     # Generate the JWT token for the user
     return jwt.encode(key=JWT_TOKEN_KEY, algorithm="HS512",
         payload={
-            "exp": datetime.now() + timedelta(days=1),
+            "exp": datetime.now(timezone.utc) + timedelta(days=1),
             "exp_seconds": timedelta(days=1).total_seconds(),
             "user_id": user.user_id
         }

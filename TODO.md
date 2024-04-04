@@ -54,6 +54,7 @@ The database (PostgreSQL) schema for the user management system will consist of 
     - last_login
     - is_active
     - is_locked
+    - is_email_verified
     - lockout_time
     - created_at
     - updated_at

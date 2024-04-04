@@ -2,7 +2,7 @@
 Schema Models for the User related operations
 """
 
-from src.utils.base.libraries import BaseModel, Field, validator, datetime, EmailStr
+from src.utils.base.libraries import BaseModel, Field, validator, EmailStr
 
 
 class BaseUser(BaseModel):
@@ -16,7 +16,7 @@ class BaseUser(BaseModel):
     email: EmailStr = Field(..., title="Email", description="Email")
     phone_number: str = Field(..., title="Phone Number", description="Phone Number")
     profile_picture_url: str = Field("", title="Profile Picture URL", description="Profile Picture URL")
-    is_active: bool = Field(False, title="Is Active", description="Is Active")  # By default, the user will be inactive till verified / activated
+    is_email_verified: bool = Field(False, title="Is Email Verified", description="Is Email Verified")  # Email Verification
 
     @validator('phone_number')
     def phone_number_validator(cls, phone_number: str):
