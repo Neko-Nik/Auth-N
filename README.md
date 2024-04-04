@@ -10,6 +10,9 @@
     <a href="https://github.com/Neko-Nik/Auth-N/actions/workflows/codeql.yml">
         <img src="https://github.com/Neko-Nik/Auth-N/actions/workflows/codeql.yml/badge.svg" alt="CodeQL" style="max-width: 100%;">
     </a>
+    <a href="https://github.com/Neko-Nik/Auth-N/blob/master/LICENSE">
+        <img src="https://img.shields.io/github/license/Neko-Nik/Auth-N" alt="License">
+    </a>
     <!-- <a href="https://github.com/Neko-Nik/Auth-N/actions/workflows/compliance.yml">
         <img src="https://github.com/Neko-Nik/Auth-N/actions/workflows/compliance.yml/badge.svg" alt="Compliance" style="max-width: 100%;">
     </a>
@@ -24,6 +27,9 @@
     <img src="https://img.shields.io/github/commit-activity/w/Neko-Nik/Auth-N" alt="GitHub commit activity">
     <a href="https://github.com/Neko-Nik/Auth-N/issues">
         <img src="https://img.shields.io/github/issues/Neko-Nik/Auth-N" alt="GitHub issues">
+    </a>
+    <a href="https://github.com/Neko-Nik/Auth-N/pulls">
+        <img src="https://img.shields.io/github/issues-pr/Neko-Nik/Auth-N" alt="GitHub pull requests">
     </a>
     <!-- <a href="https://github.com/Neko-Nik/Auth-N/releases">
         <img src="https://img.shields.io/github/v/release/Neko-Nik/Auth-N.svg?style=flat" alt="GitHub Release">
