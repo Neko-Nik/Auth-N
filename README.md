@@ -1,5 +1,7 @@
 <div align="center">
-    <img alt="Auth-N" src="https://auth-n.nekonik.com/img/Auth-N.svg" width="300px">
+    <a href="https://auth-n.nekonik.com/">
+        <img alt="Auth-N" src="https://auth-n.nekonik.com/img/logos/Auth-N-BG-White.svg" width="300px">
+    </a>
     <br>
     <strong>Empower Your Security Journey with Auth-N: Where Authentication Meets Innovation!</strong>
 </div>
