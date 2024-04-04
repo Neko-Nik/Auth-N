@@ -21,7 +21,6 @@ The routers in this file are responsible for handling the user related endpoints
 """
 
 from src.utils.base.libraries import (
-    Jinja2Templates,
     JSONResponse,
     APIRouter,
     Request,
@@ -35,10 +34,6 @@ from src.database import get_db, get_user_by_user_id
 from src.authentication import create_new_user, generate_access_token
 from src.main import get_current_user_id
 from src.email import send_verification_email, verify_otp_for_user_email
-
-# Load templates
-templates = Jinja2Templates(directory="templates")
-
 
 # Router
 router = APIRouter()
@@ -138,7 +133,7 @@ def verify_email(request: Request, user_id: dict=Depends(get_current_user_id), s
         )
 
 
-@router.post("/verify-email/{otp}", response_class=JSONResponse, tags=["User Authentication"], summary="Verify the email of the user")
+@router.put("/verify-email", response_class=JSONResponse, tags=["User Authentication"], summary="Verify the email of the user")
 def verify_email(request: Request, otp: str, user_id: dict=Depends(get_current_user_id), session: Session=Depends(get_db)) -> JSONResponse:
     """
     This endpoint is used to verify the email of the user
