@@ -31,7 +31,7 @@ from src.utils.base.libraries import (
     OAuth2PasswordRequestForm
 )
 from src.utils.models import BaseUser, Error
-from src.database import get_db
+from src.database import get_db, get_user_by_user_id
 from src.authentication import create_new_user, generate_access_token
 from src.main import get_current_user_id
 from src.email import send_verification_email, verify_otp_for_user_email
@@ -161,6 +161,50 @@ def verify_email(request: Request, otp: str, user_id: dict=Depends(get_current_u
             )
         return JSONResponse(
             content={"message": verify_email_status},
+            status_code=status.HTTP_200_OK
+        )
+
+    except Exception as e:
+        return JSONResponse(
+            content={"message": "Internal Server Error", "error": str(e)},
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
+
+
+@router.get("/data", response_class=JSONResponse, tags=["Authorization"], summary="Get the user details")
+def get_user(request: Request, user_id: dict=Depends(get_current_user_id), session: Session=Depends(get_db)) -> JSONResponse:
+    """
+    This endpoint is used to get the details of the user
+    param: request: Request: Request object
+    param: session: Session: Database session
+    return: JSONResponse: JSON response
+    """
+    if isinstance(user_id, Error):
+        return JSONResponse(
+            content=user_id.model_dump(),
+            status_code=user_id.status_code
+        )
+    try:
+        user = get_user_by_user_id(db=session, user_id=user_id)
+        if isinstance(user, Error):
+            return JSONResponse(
+                content=user.model_dump(),
+                status_code=user.status_code
+            )
+        return JSONResponse(
+            content={
+                "user_id": user.user_id,
+                "username": user.username,
+                "email": user.email,
+                "phone_number": user.phone_number,
+                "profile_picture_url": user.profile_picture_url,
+                "roles": [role.role_name for role in user.roles],
+                "permissions": [{
+                    "permission_name": permission.permission_name,
+                    "description": permission.description,
+                    "permission_data": permission.permission_data
+                } for role in user.roles for permission in role.permissions]
+            },
             status_code=status.HTTP_200_OK
         )
 
