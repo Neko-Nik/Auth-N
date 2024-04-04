@@ -1,5 +1,5 @@
 """
-Authorization Router for /user endpoints
+User Authentication Router for /user endpoints
 
 The routers in this file are responsible for handling the user related endpoints
     - Register User: POST /register - Create a new user in the database
@@ -45,7 +45,7 @@ router = APIRouter()
 
 
 # Register User - Create a new user in the database
-@router.post("/register", response_class=JSONResponse, tags=["Authorization"], summary="Register User")
+@router.post("/register", response_class=JSONResponse, tags=["User Authentication"], summary="Register User")
 def register_user(request: Request, user: BaseUser, session: Session=Depends(get_db)) -> JSONResponse:
     """
     This endpoint is used to register a user
@@ -74,7 +74,7 @@ def register_user(request: Request, user: BaseUser, session: Session=Depends(get
 
 
 # Login User - Login an existing user
-@router.post("/login/access-token", response_class=JSONResponse, tags=["Authentication"], summary="Login and generate a new JWT token")
+@router.post("/login/access-token", response_class=JSONResponse, tags=["User Authentication"], summary="Login and generate a new JWT token")
 def login_access_token(request: Request, session: Session=Depends(get_db), form_data: OAuth2PasswordRequestForm=Depends()) -> JSONResponse:
     """
     This endpoint is used to generate a new JWT token for the user to access the application
@@ -105,7 +105,7 @@ def login_access_token(request: Request, session: Session=Depends(get_db), form_
         )
 
 
-@router.post("/verify-email", response_class=JSONResponse, tags=["Authorization"], summary="Send a verification email to the user")
+@router.post("/verify-email", response_class=JSONResponse, tags=["User Authentication"], summary="Send a verification email to the user")
 def verify_email(request: Request, user_id: dict=Depends(get_current_user_id), session: Session=Depends(get_db)) -> JSONResponse:
     """
     This endpoint is used to send a verification email to the user
@@ -138,7 +138,7 @@ def verify_email(request: Request, user_id: dict=Depends(get_current_user_id), s
         )
 
 
-@router.post("/verify-email/{otp}", response_class=JSONResponse, tags=["Authorization"], summary="Verify the email of the user")
+@router.post("/verify-email/{otp}", response_class=JSONResponse, tags=["User Authentication"], summary="Verify the email of the user")
 def verify_email(request: Request, otp: str, user_id: dict=Depends(get_current_user_id), session: Session=Depends(get_db)) -> JSONResponse:
     """
     This endpoint is used to verify the email of the user
@@ -171,7 +171,7 @@ def verify_email(request: Request, otp: str, user_id: dict=Depends(get_current_u
         )
 
 
-@router.get("/data", response_class=JSONResponse, tags=["Authorization"], summary="Get the user details")
+@router.get("/data", response_class=JSONResponse, tags=["User Authentication"], summary="Get the user details")
 def get_user(request: Request, user_id: dict=Depends(get_current_user_id), session: Session=Depends(get_db)) -> JSONResponse:
     """
     This endpoint is used to get the details of the user
