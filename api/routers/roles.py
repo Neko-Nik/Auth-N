@@ -70,9 +70,12 @@ The only part where the super admin can't do anything is the super admin can't d
 # Anything that is created by the system can't be deleted or modified in any way
 # These are the default permissions that will be created by the system
 """
-Used to do some basic operations on the roles and permissions
-| Roles | Permissions | User_Roles | Role_Permissions |
+Initial setup should be like this:
 
+- Create and put all the permissions in the system
+- Create and put all the roles in the system
+- Create and put all the permissions in the roles
+- Create new admin user with the role of super admin
 """
 default_auth_permissions = {
     # Users
@@ -126,4 +129,34 @@ default_auth_permissions = {
     "read_all_ip_restrictions": "Read all the IP restrictions in the system (if any)",
     "create_any_ip_restriction": "Create any IP restriction for any user in the system",
     "manage_all_ip_restrictions": "Manage all the IP restrictions in the system, like editing restrictions, deleting the restrictions, etc."
+}
+
+
+# Permissions
+
+# The schema for the permissions will be like this
+
+all_permissions = {
+    "read_all_users": {
+        "permission_name": "read_all_users",
+        "description": "Read all the users in the system",
+        "permission_data": {
+            "access_levels": {
+                "read": True,
+                "write": False,
+                "delete": False,
+                "update": False
+                # Note that on the frontend, user should read before writing, deleting, or updating so, if read is false, only API calls can be made
+            },
+            "is_system_defined": True,
+            "custom_data": {},  # Any custom data that needs to be stored
+            "related_endpoints": [
+                "users" # This is something like a constant, where the bundle of endpoints are stored on the name of the constant
+                        # Like "users" -> /users, /users/{user_id}, /users/{user_id}/roles, etc. [Note handle versioning]
+            ],
+            "constraints": {
+                "ip_restrictions": ["192.168.1.0/24", "*.*.*.*"],   # *.*.*.* means any IP address (Default)
+            }
+        }
+    }
 }
