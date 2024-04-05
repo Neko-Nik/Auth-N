@@ -112,7 +112,7 @@ The database (PostgreSQL) schema for the user management system will consist of 
 9. **JWT_Tokens:**
     - token_id (Primary Key)
     - user_id (Foreign Key to Users)
-    - token
+    - token (JWT Refresh Token)
     - expiration_time
 
 10. **API_Keys:**
