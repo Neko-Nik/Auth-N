@@ -85,6 +85,14 @@ If you have experienced or been made aware of unacceptable behaviour, please rem
 
 This project needs a ⭐️ from you. Don't forget to leave a star ⭐️. Or you can support this project by [Funding the Developer](https://github.com/Neko-Nik/Auth-N/blob/main/FUNDING.yml). Your support is highly appreciated.
 
+# Star History
+
+<picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=Neko-Nik/Auth-N&type=Date&theme=dark" />
+    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=Neko-Nik/Auth-N&type=Date" />
+    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=Neko-Nik/Auth-N&type=Date" />
+</picture>
+
 # 📧 Contact
 
 For any inquiries or feedback, please contact me at `nikhil@nekonik.com`. Shedule a meeting with me at [Calendly - Neko Nik](https://calendly.com/neko-nik/general-meet)

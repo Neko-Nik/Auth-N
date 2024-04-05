@@ -1,4 +1,3 @@
-
 # Explaining the Database Schema for User Roles and Permissions
 
 In a system where users have different roles and permissions, a well-designed database schema is essential for managing user access effectively. This document explains the database schema for user roles and permissions, outlining the tables, their relationships, and how users interact with them.
