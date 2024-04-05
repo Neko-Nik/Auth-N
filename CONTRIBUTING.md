@@ -14,7 +14,6 @@
 - [Code Review](#white_check_mark-code-review)
 - [Coding Style](#nail_care-coding-style)
 - [Certificate of Origin](#medal_sports-certificate-of-origin)
-- [Credits](#pray-credits)
 
 > **This guide serves to set clear expectations for everyone involved with the project so that we can improve it together while also creating a welcoming space for everyone to participate. Following these guidelines will help ensure a positive experience for contributors and maintainers.**
 
@@ -30,6 +29,8 @@ See our [Support Guide](https://github.com/Neko-Nik/Auth-N/blob/main/SUPPORT.md)
 
 Before [creating an issue](https://help.github.com/en/github/managing-your-work-on-github/creating-an-issue), check if you are using the latest version of the project. If you are not up-to-date, see if updating fixes your issue first.
 
+Follow the provided [TODO list](https://github.com/Neko-Nik/Auth-N/blob/main/TODO.md) to see if your issue makes sense in the context of the project's goals.
+
 ### :lock: Reporting Security Issues
 
 Review our [Security Policy](https://github.com/Neko-Nik/Auth-N/blob/main/SECURITY.md). **Do not** file a public issue for security vulnerabilities.
@@ -41,6 +42,8 @@ A great way to contribute to the project is to send a detailed issue when you en
 In short, since you are most likely a developer, **provide a ticket that you would like to receive**.
 
 - **Review the [documentation](https://auth-n.nekonik.com) and [Support Guide](https://github.com/Neko-Nik/Auth-N/blob/main/SUPPORT.md)** before opening a new issue.
+
+- **Align your issue with the project's goals.** See the [TODO list](https://github.com/Neko-Nik/Auth-N/blob/main/TODO.md) to understand the project's direction.
 
 - **Do not open a duplicate issue!** Search through existing issues to see if your issue has previously been reported. If your issue exists, comment with any additional information you have. You may simply note "I have this problem too", which helps prioritize the most common problems and requests. 
 

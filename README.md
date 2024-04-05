@@ -57,8 +57,8 @@ There is a dedicated documentation for the Auth-N project. The documentation is 
 The documentation provides detailed information about the project, including installation instructions, usage guidelines, and API references. It also includes tutorials, examples, and best practices for implementing Auth-N in your applications.
 
 - [Auth-N Documentation](https://auth-n.nekonik.com/)
-- [Auth-N Documentation Repository](https://github.com/Neko-Nik/Auth-N-Docs)
-- [TODO List for Documentation](https://github.com/Neko-Nik/Auth-N/blob/main/docs/TODO.md)
+- [Source Code Documentation](https://auth-n.nekonik.com/docs/Contribute/intro)
+- [TODO List](https://github.com/Neko-Nik/Auth-N/blob/main/TODO.md)
 
 Feel free to explore the documentation and provide feedback or suggestions for improvement. Your input is valuable to us, and we appreciate your support in making Auth-N a better project for everyone.
 
@@ -84,8 +84,6 @@ If you have experienced or been made aware of unacceptable behaviour, please rem
 # 🙏 Support
 
 This project needs a ⭐️ from you. Don't forget to leave a star ⭐️. Or you can support this project by [Funding the Developer](https://github.com/Neko-Nik/Auth-N/blob/main/FUNDING.yml). Your support is highly appreciated.
-
-# Star History
 
 <picture>
     <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=Neko-Nik/Auth-N&type=Date&theme=dark" />
