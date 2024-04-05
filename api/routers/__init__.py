@@ -3,6 +3,7 @@ All Routers are imported here and are exposed to the main app file
 """
 
 from .logs import router as logs_router
+from .user import router as user_router
 from .users import router as users_router
 
 
@@ -18,5 +19,6 @@ __annotations__ = {
 
 __all__ = [
     "logs_router",
+    "user_router",
     "users_router"
 ]

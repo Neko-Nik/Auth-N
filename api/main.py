@@ -11,7 +11,7 @@ from src.utils.base.libraries import (
     FastAPI,
     Request
 )
-from .routers import logs_router, users_router
+from .routers import logs_router, user_router, users_router
 from src.utils.models import All_Exceptions
 from src.database import init_db
 
@@ -47,11 +47,14 @@ async def input_data_exception_handler(request: Request, exc: All_Exceptions):
 
 #    Endpoints    #
 app.include_router(router=logs_router)
-app.include_router(router=users_router, prefix="/user")
+app.include_router(router=user_router, prefix="/user")
+app.include_router(router=users_router, prefix="/users")
+
 
 @app.get("/docs", include_in_schema=False)
 async def custom_swagger_ui_html(request: Request):
     return get_swagger_ui_html(openapi_url="/openapi.json", title="Auth N - API", swagger_favicon_url="https://auth-n.nekonik.com/img/favicon.svg")
+
 
 @app.get("/redoc", include_in_schema=False)
 async def redoc_html(request: Request):
