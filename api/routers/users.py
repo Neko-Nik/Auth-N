@@ -4,7 +4,7 @@ User Authentication Router for /users endpoints
 The routers in this file are responsible for handling the users related endpoints
 
 Note that the users list will be based on the permissions of the user
-if the user has the higherkey permission, then the user can see all the users
+if the user has the hierarchy permission, then the user can see all the users
 if not then list only the users under the user's permission
 
     - `/{user_id}` (GET): Get all users id and username and count
@@ -19,6 +19,8 @@ if not then list only the users under the user's permission
     - `/import` (POST): Import users from a CSV file / etc and create users
         - Background task to import users from a CSV file
     - `/export` (GET): Export users to a CSV file / etc
+
+Reference: https://auth-n.nekonik.com/docs/category/role-based-access-control
 """
 
 from src.utils.base.libraries import (
