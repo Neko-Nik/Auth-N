@@ -2,9 +2,9 @@
 This file contains the database connection and session creation functions
 """
 
-from src.utils.base.libraries import create_engine, sessionmaker
+from src.utils.base.libraries import create_engine, sessionmaker, event
 from src.utils.base.constants import POSTGRES_DB_DATABASE, POSTGRES_DB_HOST, POSTGRES_DB_PASSWORD, POSTGRES_DB_PORT, POSTGRES_DB_USERNAME
-from src.utils.models import Base
+from src.utils.models import Base, User
 from .events import handle_failed_login_attempts, handle_email_changes
 
 
@@ -23,6 +23,9 @@ def init_db():
     Function to initialize the database
     """
     Base.metadata.create_all(bind=engine, checkfirst=True)
+    # Registering event listeners on specific models
+    event.listen(User, "after_insert", handle_failed_login_attempts)
+    event.listen(User, "after_insert", handle_email_changes)
 
 
 def get_db():

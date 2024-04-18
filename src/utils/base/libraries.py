@@ -15,7 +15,7 @@ from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel, Field, validator, EmailStr
 
 # SQLAlchemy libraries
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime, JSON, create_engine
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime, JSON, create_engine, event
 from sqlalchemy.orm import relationship, sessionmaker, Session
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.event import listens_for
