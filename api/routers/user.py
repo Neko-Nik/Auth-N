@@ -30,10 +30,10 @@ from src.utils.base.libraries import (
     OAuth2PasswordRequestForm
 )
 from src.utils.models import BaseUser, Error
-from src.database import get_db, get_user_by_user_id
-from src.authentication import create_new_user, generate_access_token
 from src.main import get_current_user_id
+from src.database import get_db, get_user_by_user_id
 from src.email import send_verification_email, verify_otp_for_user_email
+from src.authentication import create_new_user, generate_access_token, update_user_metadata
 
 # Router
 router = APIRouter()
@@ -70,7 +70,7 @@ def register_user(request: Request, user: BaseUser, session: Session=Depends(get
 
 # Login User - Login an existing user
 @router.post("/login/access-token", response_class=JSONResponse, tags=["User Authentication"], summary="Login and generate a new JWT token")
-def login_access_token(request: Request, session: Session=Depends(get_db), form_data: OAuth2PasswordRequestForm=Depends()) -> JSONResponse:
+async def login_access_token(request: Request, session: Session=Depends(get_db), form_data: OAuth2PasswordRequestForm=Depends()) -> JSONResponse:
     """
     This endpoint is used to generate a new JWT token for the user to access the application
     param: grant_type: str: Grant type
@@ -198,8 +198,42 @@ def get_user(request: Request, user_id: dict=Depends(get_current_user_id), sessi
                     "permission_name": permission.permission_name,
                     "description": permission.description,
                     "permission_data": permission.permission_data
-                } for role in user.roles for permission in role.permissions]
+                } for role in user.roles for permission in role.permissions],
+                "metadata": user.meta_data
             },
+            status_code=status.HTTP_200_OK
+        )
+
+    except Exception as e:
+        return JSONResponse(
+            content={"message": "Internal Server Error", "error": str(e)},
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
+
+
+@router.put("/data/metadata", response_class=JSONResponse, tags=["User Authentication"], summary="Update the user metadata")
+def update_user_metadata(request: Request, metadata: dict, user_id: dict=Depends(get_current_user_id), session: Session=Depends(get_db)) -> JSONResponse:
+    """
+    This endpoint is used to update the metadata of the user
+    param: request: Request: Request object
+    param: metadata: dict: New metadata to be added to the user
+    param: session: Session: Database session
+    return: JSONResponse: JSON response
+    """
+    if isinstance(user_id, Error):
+        return JSONResponse(
+            content=user_id.model_dump(),
+            status_code=user_id.status_code
+        )
+    try:
+        update_status = update_user_metadata(session=session, user_id=user_id, metadata=metadata)
+        if isinstance(update_status, Error):
+            return JSONResponse(
+                content=update_status.model_dump(),
+                status_code=update_status.status_code
+            )
+        return JSONResponse(
+            content={"message": "User metadata updated successfully", "metadata": update_status},
             status_code=status.HTTP_200_OK
         )
 

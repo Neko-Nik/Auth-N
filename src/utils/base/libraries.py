@@ -16,8 +16,8 @@ from pydantic import BaseModel, Field, validator, EmailStr
 
 # SQLAlchemy libraries
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime, JSON, create_engine
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker, Session
+from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.event import listens_for
 
 # Email libraries
@@ -25,8 +25,8 @@ import smtplib
 
 # other libraries
 from datetime import datetime, timezone, timedelta
-from typing import Annotated
 from deprecated import deprecated
+from typing import Annotated
 from functools import wraps
 import subprocess
 import hashlib

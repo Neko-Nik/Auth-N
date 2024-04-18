@@ -54,6 +54,7 @@ class User(Base):
     updated_at = Column(DateTime, onupdate=datetime.now(timezone.utc))
     password_last_changed = Column(DateTime)
     failed_login_attempts = Column(Integer, default=0)
+    meta_data = Column(JSON, default={})
 
     roles = relationship("Role", secondary="user_roles", back_populates="users", primaryjoin="User.user_id == UserRoles.user_id", secondaryjoin="Role.role_id == UserRoles.role_id")
     login_attempts = relationship("LoginAttempt", back_populates="user")

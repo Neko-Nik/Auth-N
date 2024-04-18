@@ -19,7 +19,7 @@ def check_user_status(user: User) -> Union[User, Error]:
             return Error(**DB_ERROR_MESSAGES["user_inactive"])
         case user if user.is_locked:
             return Error(**DB_ERROR_MESSAGES["user_locked"])
-    
+
     return user
 
 
@@ -45,4 +45,14 @@ def create_user(db: Session, user: BaseUser) -> None:
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
+    return None
+
+
+def replace_user_metadata(db: Session, user_id: str, meta_data: dict) -> None:
+    """
+    Update the meta_data of the user with the new meta_data
+    param: meta_data: dict: New meta_data to be added to the user
+    """
+    db.query(User).filter(User.user_id == user_id).update({"meta_data": meta_data})
+    db.commit()
     return None

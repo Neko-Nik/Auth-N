@@ -12,9 +12,10 @@ from src.utils.base.libraries import (
     timezone,
     jwt
 )
-from src.utils.models import BaseUser, Error
-from src.database import create_user, get_user_by_username
+from src.utils.models import BaseUser, Error, User
+from src.database.handlers.users import get_user_by_user_id
 from src.utils.base.constants import JWT_TOKEN_KEY, DB_ERROR_MESSAGES
+from src.database import create_user, get_user_by_username, replace_user_metadata
 
 
 def create_new_user(session: Session, user: BaseUser) -> Error | str:
@@ -25,7 +26,8 @@ def create_new_user(session: Session, user: BaseUser) -> Error | str:
     return: Error | str (Success message)
     """
     # If user already exists, return an error
-    if get_user_by_username(db=session, username=user.username):
+    user_exists = get_user_by_username(db=session, username=user.username)
+    if (isinstance(user_exists, Error) and user_exists.status_code != 404) or isinstance(user_exists, User):
         return Error(**DB_ERROR_MESSAGES["user_already_exists"])
 
     # Password hash is base64 encoded from the frontend
@@ -87,3 +89,30 @@ def generate_access_token(session: Session, username: str, password: str) -> str
             "user_id": user.user_id
         }
     )
+
+
+def update_user_metadata(session: Session, user_id: str, metadata: dict) -> Error | dict:
+    """
+    Update the metadata of the user
+        - Updates the metadata by merging the new metadata with the existing metadata
+        - This will not remove any existing metadata keys but will update the values / add new keys
+        - Note that this will only update the metadata at level 1 keys and not nested keys
+    param: session: Session: Database session
+    param: user_id: str: User ID
+    param: metadata: dict: Metadata to update
+    return: Error | dict: Updated metadata | Error message
+
+    Examples of metadata update:
+        - Example 1: If the metadata is {"key1": "value1"} and the new metadata is {"key2": "value2"}, the updated metadata will be {"key1": "value1", "key2": "value2"}
+        - Example 2: If the metadata is {"key1": {"nested_key1": "value1"}} and the new metadata is {"key1": {"nested_key2": "value2"}}, the updated metadata will be {"key1": {"nested_key2": "value2"}}
+        - Example 3: If the metadata is {"key1": "value1"} and the new metadata is {"key1": "value2"}, the updated metadata will be {"key1": "value2"}
+    """
+    user = get_user_by_user_id(db=session, user_id=user_id)
+    if isinstance(user, Error):
+        return user
+
+    current_metadata = user.meta_data
+    new_metadata = {**current_metadata, **metadata} # merge the metadata only level 1 keys
+
+    replace_user_metadata(db=session, user_id=user_id, meta_data=new_metadata)
+    return new_metadata
