@@ -54,6 +54,20 @@ def create_new_user(session: Session, user: BaseUser) -> Error | str:
     return "User created successfully"
 
 
+def verify_user_credentials(session: Session, user: User, password: str) -> bool:
+    """
+    Verify the user credentials
+    param: session: Session: Database session
+    param: user: User: User object
+    param: password: str: Password
+    return: bool: True if the password is correct, False otherwise
+    """
+    salt = user.password_salt.encode(encoding="utf-8")  # Convert the salt to bytes
+    hashed_password = bcrypt.hashpw(password=password.encode(encoding="utf-8"), salt=salt)  # Hash the password
+
+    return hashed_password == user.password_hash.encode(encoding="utf-8")  # Compare the hashed password
+
+
 def generate_access_token(session: Session, username: str, password: str) -> str | Error:
     """
     Generate an access token for the user
@@ -75,10 +89,7 @@ def generate_access_token(session: Session, username: str, password: str) -> str
         return user
 
     # Verify the password
-    salt = user.password_salt.encode(encoding="utf-8")  # Convert the salt to bytes
-    hashed_password = bcrypt.hashpw(password=password.encode(encoding="utf-8"), salt=salt)  # Hash the password
-
-    if hashed_password != user.password_hash.encode(encoding="utf-8"):  # Compare the hashed password
+    if not verify_user_credentials(session=session, user=user, password=password):
         return Error(**DB_ERROR_MESSAGES["incorrect_password"]) # Return an error if the password is incorrect
 
     # Generate the JWT token for the user
@@ -116,3 +127,18 @@ def update_user_metadata(session: Session, user_id: str, metadata: dict) -> Erro
 
     replace_user_metadata(db=session, user_id=user_id, meta_data=new_metadata)
     return new_metadata
+
+
+def generate_authorization_code(user: User) -> str | Error:
+    """
+    Generate an authorization code for the user
+    param: user: User: User object
+    return: str: Authorization code | Error
+    """
+    return jwt.encode(key=JWT_TOKEN_KEY, algorithm="HS512",
+        payload={
+            "exp": datetime.now(timezone.utc) + timedelta(minutes=5),
+            "exp_seconds": timedelta(minutes=5).total_seconds(),
+            "user_id": user.user_id
+        }
+    )

@@ -11,7 +11,7 @@ from src.utils.base.libraries import (
     FastAPI,
     Request
 )
-from .routers import logs_router, user_router, users_router
+from .routers import logs_router, user_router, users_router, authorize_router
 from src.utils.models import All_Exceptions
 from src.database import init_db
 
@@ -49,6 +49,7 @@ async def input_data_exception_handler(request: Request, exc: All_Exceptions):
 app.include_router(router=logs_router)
 app.include_router(router=user_router, prefix="/user")
 app.include_router(router=users_router, prefix="/users")
+app.include_router(router=authorize_router, prefix="/authorize")
 
 
 @app.get("/docs", include_in_schema=False)

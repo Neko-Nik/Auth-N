@@ -63,3 +63,49 @@ class BaseUser(BaseModel):
                 "profile_picture_url": "https://www.NekoNik.com"
             }
         }
+
+
+class AuthorizationLogin(BaseModel):
+    """
+    Authorization model for the user
+    """
+    response_type: str = Field("Code", title="Response Type", description="Response Type for the authentication")
+    client_id: str = Field("", title="Client ID", description="Client ID")
+    client_secret: str = Field("", title="Client Secret", description="Client Secret")
+    redirect_uri: str = Field("", title="Redirect URI", description="Redirect URI")
+    scope: str = Field("", title="Scope", description="Scope")
+    state: str = Field("", title="State", description="State")
+    code_challenge: str = Field("", title="Code Challenge", description="Code Challenge")
+    code_challenge_method: str = Field("", title="Code Challenge Method", description="Code Challenge Method")
+    grant_type: str = Field("", title="Grant Type", description="Grant Type")
+    response_mode: str = Field("", title="Response Mode", description="Response Mode")
+    nonce: str = Field("", title="Nonce", description="Nonce")
+    response: str = Field("", title="Response", description="Response")
+    username: str = Field("", title="Username", description="Username")
+    password: str = Field("", title="Password", description="Password")
+
+    class Config:
+        """
+        Configuration for the model
+        """
+        from_attributes = True
+        json_schema_extra = {
+            "title": "Auth User Model",
+            "description": "User model for authentication",
+            "type": "object",
+            "example": {
+                "client_id": "client_id",
+                "client_secret": "client secret",
+                "redirect_uri": "https://www.nekonik.com",
+                "scope": "scope",
+                "state": "state",
+                "code_challenge": "code_challenge",
+                "code_challenge_method": "code_challenge_method",
+                "grant_type": "grant_type",
+                "response_mode": "response_mode",
+                "nonce": "nonce",
+                "response": "response",
+                "username": "neko_nik",
+                "password": "Neko-Nik"
+            }
+        }

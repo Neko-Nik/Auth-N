@@ -3,7 +3,7 @@ All the models used in the project are defined here.
 """
 
 from .generic import All_Exceptions, Error
-from .auth import BaseUser
+from .auth import BaseUser, AuthorizationLogin
 from .database import (
     User,
     Role,
@@ -47,7 +47,8 @@ __annotations__ = {
     "Device": "Device model",
     "Base": "Declarative base for the database models",
     "Error": "General error model for the project",
-    "BaseUser": "Foundational user model reflecting user database structure"
+    "BaseUser": "Foundational user model reflecting user database structure",
+    "AuthorizationLogin": "Authorization Login model for the user"
 }
 
 
@@ -70,5 +71,6 @@ __all__ = [
     "Device",
     "Base",
     "Error",
-    "BaseUser"
+    "BaseUser",
+    "AuthorizationLogin"
 ]

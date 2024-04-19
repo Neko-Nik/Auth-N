@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authorization Request</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .scopes {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Authorization Request</h1>
+        <p>Welcome, please log in to continue.</p>
+        <form id="loginForm">
+            <input type="hidden" name="response_type" value="{{ response_type }}">
+            <input type="hidden" name="client_id" value="{{ client_id }}">
+            <input type="hidden" name="redirect_uri" value="{{ redirect_uri }}">
+            <input type="hidden" name="scope" value="{{ scope }}">
+            <input type="hidden" name="state" value="{{ state }}">
+            <input type="text" id="username" name="username" placeholder="Username">
+            <input type="password" id="password" name="password" placeholder="Password">
+            <button type="submit">Log In</button>
+        </form>
+        <p>Not registered? <a href="user/register">Register here</a></p>
+        <p>Not yet implemented - Register user part UI</p>
+        <div class="scopes">
+            <p>Scopes requested: {{ scope }}</p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent the default form submission
+    
+            // Get form data
+            const formData = new FormData(this);
+    
+            // Convert form data to JSON
+            const jsonFormData = {};
+            formData.forEach((value, key) => {
+                jsonFormData[key] = value;
+            });
+    
+            // Send AJAX request
+            fetch("/authorize/login", {
+                method: "POST",
+                headers: {
+                    'accept': 'application/json',                
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(jsonFormData)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Error: ${response.status} - ${response.statusText}`);
+                } else {
+                    // Redirect to the authorization endpoint
+                    response.json().then(data => {
+                        console.log(data);
+                        window.location.href = data.redirect_uri;
+                    });
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert(`Error: ${error.message}`);
+            });
+        });
+    </script>    
+</body>
+</html>
